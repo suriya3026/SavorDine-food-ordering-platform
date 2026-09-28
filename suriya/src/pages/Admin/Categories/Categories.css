@@ -1,0 +1,847 @@
+/* =========================================================
+   SAVOR DINE - CATEGORIES PAGE
+   SIDEBAR / NAVBAR WIDTH : 260px
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.categories-page {
+  width: 100% !important;
+  max-width: none;
+  min-height: 100vh;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 100px 35px 45px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 6, 4, 0.97),
+      rgba(20, 14, 8, 0.95),
+      rgba(8, 6, 4, 0.98)
+    ),
+    url("../../../assets/images/background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: #f5f5f5;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.categories-loading {
+  min-height: calc(100vh - 145px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.categories-loading h3 {
+  margin: 0 0 8px;
+  color: #e5aa43;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.categories-loading p {
+  margin: 0;
+  color: #aaa096;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.categories-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.categories-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.categories-header p {
+  margin: 7px 0 0;
+  color: #aaa096;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.category-form-card {
+  width: 100%;
+  padding: 30px;
+  margin-bottom: 30px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(32, 23, 14, 0.98),
+    rgba(23, 16, 10, 0.98)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+.category-form-card h2 {
+  margin: 0 0 24px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.category-form-card form {
+  width: 100%;
+}
+
+.form-group {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  color: #ddd4ca;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+
+  padding: 13px 15px;
+
+  background: #21170e;
+  color: #ffffff;
+
+  border: 1px solid #3a2a1b;
+  border-radius: 9px;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition: 0.25s ease;
+}
+
+.form-group textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #766c63;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #8f6329;
+
+  box-shadow:
+    0 0 0 2px rgba(229, 170, 67, 0.05);
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+.category-form-buttons {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.save-category-btn,
+.cancel-category-btn {
+  min-height: 42px;
+
+  padding: 10px 22px;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+
+/* SAVE BUTTON */
+
+.save-category-btn {
+  border: none;
+
+  background: linear-gradient(
+    135deg,
+    #e5aa43,
+    #bd7d24
+  );
+
+  color: #17100a;
+
+  box-shadow:
+    0 5px 15px rgba(229, 170, 67, 0.15);
+}
+
+.save-category-btn:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(
+    135deg,
+    #f0b956,
+    #d8952f
+  );
+}
+
+.save-category-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* CANCEL BUTTON */
+
+.cancel-category-btn {
+  background: #33261a;
+  color: #ddd4ca;
+
+  border: 1px solid #4a3724;
+}
+
+.cancel-category-btn:hover {
+  background: #463322;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   CATEGORY LIST
+========================================================= */
+
+.categories-list-card {
+  width: 100%;
+  padding: 28px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(32, 23, 14, 0.98),
+    rgba(23, 16, 10, 0.98)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================================================
+   LIST HEADER
+========================================================= */
+
+.categories-list-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.categories-list-header h2 {
+  margin: 0;
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.categories-list-header span {
+  padding: 7px 13px;
+
+  background: rgba(229, 170, 67, 0.08);
+
+  border: none;
+  border-radius: 20px;
+
+  color: #e5aa43;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   CATEGORY GRID
+========================================================= */
+
+.categories-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+.category-card {
+  min-width: 0;
+  overflow: hidden;
+
+  background: linear-gradient(
+    145deg,
+    #21170e,
+    #17100a
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.045);
+
+  border-radius: 14px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   CATEGORY IMAGE
+========================================================= */
+
+.category-image {
+  width: 100%;
+  height: 170px;
+
+  overflow: hidden;
+
+  background: #17100a;
+}
+
+.category-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform 0.35s ease;
+}
+
+.category-card:hover .category-image img {
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   IMAGE PLACEHOLDER
+========================================================= */
+
+.category-image-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #2a1c10,
+    #17100a
+  );
+
+  color: #e5aa43;
+
+  font-size: 45px;
+}
+
+
+/* =========================================================
+   CATEGORY DETAILS
+========================================================= */
+
+.category-details {
+  padding: 18px 18px 12px;
+}
+
+.category-details h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   CATEGORY DESCRIPTION
+   CORRECTED - NO WEBKIT BOX
+========================================================= */
+
+.category-details p {
+  margin: 0;
+
+  min-height: 42px;
+  max-height: 42px;
+
+  color: #aaa096;
+
+  font-size: 13px;
+  line-height: 1.6;
+
+  display: block;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CATEGORY ACTIONS
+========================================================= */
+
+.category-actions {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 14px 18px 18px;
+}
+
+.edit-category-btn,
+.delete-category-btn {
+  flex: 1;
+
+  min-height: 38px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+
+/* EDIT */
+
+.edit-category-btn {
+  background: rgba(229, 170, 67, 0.08);
+
+  color: #e5aa43;
+
+  border: 1px solid rgba(229, 170, 67, 0.2);
+}
+
+.edit-category-btn:hover {
+  background: #e5aa43;
+
+  color: #17100a;
+
+  border-color: #e5aa43;
+}
+
+
+/* DELETE */
+
+.delete-category-btn {
+  background: rgba(220, 70, 70, 0.08);
+
+  color: #ff7777;
+
+  border: 1px solid rgba(220, 70, 70, 0.18);
+}
+
+.delete-category-btn:hover {
+  background: #d94a4a;
+
+  color: #ffffff;
+
+  border-color: #d94a4a;
+}
+
+
+/* =========================================================
+   NO CATEGORIES
+========================================================= */
+
+.no-categories {
+  width: 100%;
+
+  padding: 55px 20px;
+
+  text-align: center;
+
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+
+  border-radius: 12px;
+
+  background: rgba(33, 23, 14, 0.45);
+}
+
+.no-categories h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 18px;
+}
+
+.no-categories p {
+  margin: 0;
+
+  color: #8f857b;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   NAVBAR SPACE ALWAYS 260px
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .categories-page {
+    width: 100% !important;
+    max-width: none;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 95px 28px 40px;
+  }
+
+  .categories-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .categories-page {
+    width: 100% !important;
+    max-width: none;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 90px 22px 35px;
+  }
+
+  .categories-header h1 {
+    font-size: 27px;
+  }
+
+  .category-form-card,
+  .categories-list-card {
+    padding: 22px;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .categories-page {
+    width: 100% !important;
+    max-width: none;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 85px 18px 30px;
+  }
+
+  .categories-header {
+    margin-bottom: 22px;
+  }
+
+  .categories-header h1 {
+    font-size: 24px;
+  }
+
+  .categories-header p {
+    font-size: 13px;
+  }
+
+  .category-form-card,
+  .categories-list-card {
+    padding: 20px;
+  }
+
+  .categories-list-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .categories-list-header span {
+    align-self: flex-start;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .categories-page {
+    width: 100% !important;
+    max-width: none;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 80px 12px 25px;
+  }
+
+  .categories-header h1 {
+    font-size: 21px;
+  }
+
+  .category-form-card,
+  .categories-list-card {
+    padding: 16px;
+
+    border-radius: 12px;
+  }
+
+  .category-form-card h2,
+  .categories-list-header h2 {
+    font-size: 17px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 11px 12px;
+
+    font-size: 12px;
+  }
+
+  .category-form-buttons {
+    flex-direction: column;
+
+    width: 100%;
+  }
+
+  .save-category-btn,
+  .cancel-category-btn {
+    width: 100%;
+  }
+
+  .category-image {
+    height: 145px;
+  }
+
+  .category-details {
+    padding: 15px;
+  }
+
+  .category-actions {
+    padding: 12px 15px 15px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .categories-page {
+    width: 100% !important;
+    max-width: none;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 78px 8px 20px;
+  }
+
+  .category-form-card,
+  .categories-list-card {
+    padding: 12px;
+  }
+
+  .categories-header h1 {
+    font-size: 19px;
+  }
+
+  .categories-header p {
+    font-size: 11px;
+  }
+
+  .category-image {
+    height: 125px;
+  }
+
+  .category-details h3 {
+    font-size: 15px;
+  }
+
+  .category-details p {
+    font-size: 11px;
+  }
+
+  .edit-category-btn,
+  .delete-category-btn {
+    font-size: 11px;
+
+    min-height: 35px;
+  }
+}
+
+/* =========================================================
+   FINAL FULL-WIDTH / RESPONSIVE FIX
+   ========================================================= */
+
+.categories-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden;
+}
+
+/* Keep cards and grids inside the available page width */
+.category-form-card,
+.categories-list-card,
+.categories-grid,
+.category-card {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile: use the complete available screen width */
+@media (max-width: 700px) {
+  .categories-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .categories-header {
+    width: 100%;
+  }
+
+  .category-form-card,
+  .categories-list-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .categories-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .categories-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
