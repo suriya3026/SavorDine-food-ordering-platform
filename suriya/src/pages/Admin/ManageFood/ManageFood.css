@@ -1,0 +1,1019 @@
+/* =========================================================
+   SAVOR DINE - MANAGE FOOD
+   SIDEBAR / NAVBAR SPACE = 260px
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.manage-food-page {
+  width: 100% !important;
+  max-width: none;
+  min-height: 100vh;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  padding: 100px 35px 45px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 6, 4, 0.97),
+      rgba(20, 14, 8, 0.95),
+      rgba(8, 6, 4, 0.98)
+    ),
+    url("../../../assets/images/background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: #f5f5f5;
+
+  font-family:
+    "Poppins",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.manage-food-loading {
+  min-height: calc(100vh - 145px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.manage-food-loading h3 {
+  margin: 0 0 8px;
+
+  color: #e5aa43;
+
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.manage-food-loading p {
+  margin: 0;
+
+  color: #aaa096;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.manage-food-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.manage-food-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.manage-food-header p {
+  margin: 7px 0 0;
+
+  color: #aaa096;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.manage-food-form-card {
+  width: 100%;
+
+  padding: 30px;
+
+  margin-bottom: 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(32, 23, 14, 0.98),
+      rgba(23, 16, 10, 0.98)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.30);
+}
+
+.manage-food-form-card h2 {
+  margin: 0 0 25px;
+
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.manage-food-form-card form {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  column-gap: 22px;
+  row-gap: 0;
+}
+
+.food-form-group {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 20px;
+}
+
+.food-form-group label {
+  margin-bottom: 8px;
+
+  color: #ddd4ca;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.food-form-group input,
+.food-form-group textarea,
+.food-form-group select {
+  width: 100%;
+
+  min-width: 0;
+
+  padding: 13px 15px;
+
+  background: #21170e;
+
+  color: #ffffff;
+
+  border: 1px solid #3a2a1b;
+
+  border-radius: 9px;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition: 0.25s ease;
+}
+
+.food-form-group textarea {
+  min-height: 110px;
+
+  resize: vertical;
+}
+
+.food-form-group select {
+  cursor: pointer;
+}
+
+.food-form-group select option {
+  background: #21170e;
+
+  color: #ffffff;
+}
+
+.food-form-group input::placeholder,
+.food-form-group textarea::placeholder {
+  color: #766c63;
+}
+
+.food-form-group input:focus,
+.food-form-group textarea:focus,
+.food-form-group select:focus {
+  border-color: #8f6329;
+
+  box-shadow:
+    0 0 0 2px rgba(229, 170, 67, 0.05);
+}
+
+
+/* =========================================================
+   AVAILABLE CHECKBOX
+========================================================= */
+
+.food-available-group {
+  grid-column: 1 / -1;
+
+  width: 100%;
+
+  margin: 2px 0 20px;
+}
+
+.food-available-group label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #ddd4ca;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.food-available-group input {
+  width: 17px;
+  height: 17px;
+
+  margin: 0;
+
+  accent-color: #e5aa43;
+
+  cursor: pointer;
+}
+
+.food-available-group span {
+  color: #ddd4ca;
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+.food-form-buttons {
+  grid-column: 1 / -1;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 2px;
+}
+
+.save-food-btn,
+.cancel-food-btn {
+  min-height: 42px;
+
+  padding: 10px 23px;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+
+/* SAVE */
+
+.save-food-btn {
+  border: none;
+
+  background: linear-gradient(
+    135deg,
+    #e5aa43,
+    #bd7d24
+  );
+
+  color: #17100a;
+
+  box-shadow:
+    0 5px 15px rgba(229, 170, 67, 0.15);
+}
+
+.save-food-btn:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(
+    135deg,
+    #f0b956,
+    #d8952f
+  );
+}
+
+.save-food-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* CANCEL */
+
+.cancel-food-btn {
+  background: #33261a;
+
+  color: #ddd4ca;
+
+  border: 1px solid #4a3724;
+}
+
+.cancel-food-btn:hover {
+  background: #463322;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   FOOD LIST CARD
+========================================================= */
+
+.food-list-card {
+  width: 100%;
+
+  padding: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(32, 23, 14, 0.98),
+      rgba(23, 16, 10, 0.98)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   FOOD LIST HEADER
+========================================================= */
+
+.food-list-header {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.food-list-header h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.food-list-header p {
+  margin: 6px 0 0;
+
+  color: #aaa096;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   FOOD GRID
+========================================================= */
+
+.food-admin-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   FOOD CARD
+========================================================= */
+
+.admin-food-card {
+  min-width: 0;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #21170e,
+      #17100a
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.045);
+
+  border-radius: 14px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.admin-food-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   FOOD IMAGE
+========================================================= */
+
+.admin-food-image {
+  width: 100%;
+
+  height: 190px;
+
+  overflow: hidden;
+
+  background: #17100a;
+}
+
+.admin-food-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform 0.35s ease;
+}
+
+.admin-food-card:hover .admin-food-image img {
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   IMAGE PLACEHOLDER
+========================================================= */
+
+.food-image-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2a1c10,
+      #17100a
+    );
+
+  color: #e5aa43;
+
+  font-size: 45px;
+}
+
+
+/* =========================================================
+   FOOD DETAILS
+========================================================= */
+
+.admin-food-details {
+  padding: 18px 18px 12px;
+}
+
+.admin-food-details h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.admin-food-details p {
+  margin: 0 0 12px;
+
+  min-height: 42px;
+  max-height: 42px;
+
+  color: #aaa096;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  display: block;
+
+  overflow: hidden;
+}
+
+.admin-food-details strong {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #e5aa43;
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.food-category {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #9f958b;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.food-available,
+.food-unavailable {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+.food-available {
+  background: rgba(53, 208, 127, 0.10);
+
+  color: #35d07f;
+}
+
+.food-unavailable {
+  background: rgba(220, 70, 70, 0.10);
+
+  color: #ff7777;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.admin-food-actions {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 14px 18px 18px;
+}
+
+.edit-food-btn,
+.delete-food-btn {
+  flex: 1;
+
+  min-height: 38px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+
+/* EDIT */
+
+.edit-food-btn {
+  background: rgba(229, 170, 67, 0.08);
+
+  color: #e5aa43;
+
+  border: 1px solid rgba(229, 170, 67, 0.20);
+}
+
+.edit-food-btn:hover {
+  background: #e5aa43;
+
+  color: #17100a;
+
+  border-color: #e5aa43;
+}
+
+
+/* DELETE */
+
+.delete-food-btn {
+  background: rgba(220, 70, 70, 0.08);
+
+  color: #ff7777;
+
+  border: 1px solid rgba(220, 70, 70, 0.18);
+}
+
+.delete-food-btn:hover {
+  background: #d94a4a;
+
+  color: #ffffff;
+
+  border-color: #d94a4a;
+}
+
+
+/* =========================================================
+   NO FOOD
+========================================================= */
+
+.no-food-items {
+  width: 100%;
+
+  padding: 55px 20px;
+
+  text-align: center;
+
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+
+  border-radius: 12px;
+
+  background: rgba(33, 23, 14, 0.45);
+}
+
+.no-food-items h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 18px;
+}
+
+.no-food-items p {
+  margin: 0;
+
+  color: #8f857b;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   260px SIDEBAR SPACE REMAINS
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .manage-food-page {
+    width: 100% !important;
+    max-width: none;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 95px 28px 40px;
+  }
+
+  .food-admin-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .manage-food-page {
+    width: 100% !important;
+    max-width: none;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 90px 22px 35px;
+  }
+
+  .manage-food-header h1 {
+    font-size: 27px;
+  }
+
+  .manage-food-form-card,
+  .food-list-card {
+    padding: 22px;
+  }
+
+  .manage-food-form-card form {
+    grid-template-columns: 1fr;
+  }
+
+  .food-available-group,
+  .food-form-buttons {
+    grid-column: auto;
+  }
+
+  .food-admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .manage-food-page {
+    width: 100% !important;
+    max-width: none;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 85px 18px 30px;
+  }
+
+  .manage-food-header {
+    margin-bottom: 22px;
+  }
+
+  .manage-food-header h1 {
+    font-size: 24px;
+  }
+
+  .manage-food-header p {
+    font-size: 13px;
+  }
+
+  .manage-food-form-card,
+  .food-list-card {
+    padding: 20px;
+  }
+
+  .food-list-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .manage-food-page {
+    width: 100% !important;
+    max-width: none;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 80px 12px 25px;
+  }
+
+  .manage-food-header h1 {
+    font-size: 21px;
+  }
+
+  .manage-food-form-card,
+  .food-list-card {
+    padding: 16px;
+
+    border-radius: 12px;
+  }
+
+  .manage-food-form-card h2,
+  .food-list-header h2 {
+    font-size: 17px;
+  }
+
+  .food-form-group input,
+  .food-form-group textarea,
+  .food-form-group select {
+    padding: 11px 12px;
+
+    font-size: 12px;
+  }
+
+  .food-form-buttons {
+    flex-direction: column;
+
+    width: 100%;
+  }
+
+  .save-food-btn,
+  .cancel-food-btn {
+    width: 100%;
+  }
+
+  .admin-food-image {
+    height: 145px;
+  }
+
+  .admin-food-details {
+    padding: 15px;
+  }
+
+  .admin-food-actions {
+    padding: 12px 15px 15px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .manage-food-page {
+    width: 100% !important;
+    max-width: none;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 78px 8px 20px;
+  }
+
+  .manage-food-form-card,
+  .food-list-card {
+    padding: 12px;
+  }
+
+  .manage-food-header h1 {
+    font-size: 19px;
+  }
+
+  .manage-food-header p {
+    font-size: 11px;
+  }
+
+  .admin-food-image {
+    height: 125px;
+  }
+
+  .admin-food-details h3 {
+    font-size: 15px;
+  }
+
+  .admin-food-details p {
+    font-size: 11px;
+  }
+
+  .edit-food-btn,
+  .delete-food-btn {
+    font-size: 11px;
+
+    min-height: 35px;
+  }
+}
+
+/* =========================================================
+   FINAL RESPONSIVE / FULL-WIDTH FIX
+   ========================================================= */
+
+.manage-food-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden;
+}
+
+.manage-food-header,
+.manage-food-form-card,
+.food-list-card,
+.food-admin-grid {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .manage-food-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .manage-food-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .manage-food-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 500px) {
+  .manage-food-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .manage-food-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

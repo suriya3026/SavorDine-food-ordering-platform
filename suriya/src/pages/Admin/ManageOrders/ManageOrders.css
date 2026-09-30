@@ -1,0 +1,820 @@
+/* =========================================================
+   SAVOR DINE - MANAGE ORDERS
+   Premium Black / Dark Brown / Gold Theme
+   Fixed Admin Sidebar: 260px
+========================================================= */
+
+.manage-orders-page {
+  width: 100%;
+  margin-left: 0;
+  min-height: 100vh;
+
+  padding: 100px 35px 45px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 6, 4, 0.96),
+      rgba(20, 14, 8, 0.94),
+      rgba(8, 6, 4, 0.97)
+    ),
+    url("../../../assets/images/background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.manage-orders-loading {
+  min-height: 60vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.manage-orders-loading h3 {
+  margin: 0 0 10px;
+
+  color: #e5aa43;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.manage-orders-loading p {
+  margin: 0;
+
+  color: #aaa096;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.manage-orders-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+
+  margin-bottom: 30px;
+}
+
+.manage-orders-header h1 {
+  margin: 0 0 7px;
+
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.manage-orders-header h1::first-letter {
+  color: #e5aa43;
+}
+
+.manage-orders-header p {
+  margin: 0;
+
+  color: #aaa096;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   ORDERS COUNT
+========================================================= */
+
+.orders-count {
+  min-width: 115px;
+
+  padding: 12px 18px;
+
+  text-align: center;
+
+  background: rgba(229, 170, 67, 0.08);
+
+  border: 1px solid rgba(229, 170, 67, 0.25);
+
+  border-radius: 10px;
+
+  color: #e5aa43;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   NO ORDERS
+========================================================= */
+
+.no-orders {
+  width: 100%;
+
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background: rgba(23, 16, 10, 0.92);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+.no-orders h3 {
+  margin: 0 0 10px;
+
+  color: #e5aa43;
+
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.no-orders p {
+  margin: 0;
+
+  max-width: 400px;
+
+  color: #aaa096;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+========================================================= */
+
+.orders-table-container {
+  width: 100%;
+
+  overflow-x: auto;
+
+  background: rgba(23, 16, 10, 0.94);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.35);
+
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: #6e4a1d #17100a;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.orders-table {
+  width: 100%;
+
+  min-width: 1150px;
+
+  border-collapse: collapse;
+
+  table-layout: auto;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.orders-table thead {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.orders-table thead tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.orders-table th {
+  padding: 17px 15px;
+
+  color: #e5aa43;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.orders-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.orders-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.orders-table tbody tr:hover {
+  background: rgba(229, 170, 67, 0.035);
+}
+
+.orders-table td {
+  padding: 18px 15px;
+
+  color: #d8d0c8;
+
+  font-size: 13px;
+
+  vertical-align: middle;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ORDER ID
+========================================================= */
+
+.orders-table td:first-child {
+  color: #e5aa43;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.customer-info {
+  min-width: 150px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.customer-info strong {
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.customer-info span {
+  color: #8f857b;
+
+  font-size: 11px;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.orders-table td strong {
+  color: #e5aa43;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   ADDRESS
+========================================================= */
+
+.orders-table td:nth-child(4) {
+  min-width: 180px;
+
+  max-width: 240px;
+
+  color: #aaa096;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   ORDER DATE
+========================================================= */
+
+.orders-table td:nth-child(5) {
+  min-width: 155px;
+
+  color: #aaa096;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   SELECT DROPDOWNS
+========================================================= */
+
+.orders-table select {
+  width: 145px;
+
+  min-height: 38px;
+
+  padding: 8px 32px 8px 11px;
+
+  background-color: #17100a;
+
+  border: 1px solid rgba(229, 170, 67, 0.25);
+
+  border-radius: 8px;
+
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+
+  box-sizing: border-box;
+}
+
+.orders-table select:hover {
+  border-color: rgba(229, 170, 67, 0.55);
+
+  background-color: #1d140b;
+}
+
+.orders-table select:focus {
+  border-color: #e5aa43;
+
+  box-shadow:
+    0 0 0 3px rgba(229, 170, 67, 0.10);
+}
+
+.orders-table select option {
+  background: #17100a;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.delete-order-btn {
+  min-width: 75px;
+
+  padding: 9px 13px;
+
+  border: 1px solid rgba(220, 70, 70, 0.30);
+
+  border-radius: 8px;
+
+  background: rgba(180, 45, 45, 0.08);
+
+  color: #e77a7a;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    all 0.25s ease;
+
+  white-space: nowrap;
+}
+
+.delete-order-btn:hover {
+  background: rgba(190, 50, 50, 0.18);
+
+  border-color: rgba(220, 80, 80, 0.55);
+
+  color: #ff9999;
+
+  transform: translateY(-1px);
+}
+
+.delete-order-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   CUSTOM SCROLLBAR
+========================================================= */
+
+.orders-table-container::-webkit-scrollbar {
+  height: 7px;
+}
+
+.orders-table-container::-webkit-scrollbar-track {
+  background: #17100a;
+
+  border-radius: 10px;
+}
+
+.orders-table-container::-webkit-scrollbar-thumb {
+  background: #6e4a1d;
+
+  border-radius: 10px;
+}
+
+.orders-table-container::-webkit-scrollbar-thumb:hover {
+  background: #9a6725;
+}
+
+
+/* =========================================================
+   LARGE SCREEN
+========================================================= */
+
+@media (max-width: 1400px) {
+
+  .manage-orders-page {
+    padding: 95px 28px 40px;
+  }
+
+  .manage-orders-header h1 {
+    font-size: 28px;
+  }
+
+  .orders-table {
+    min-width: 1100px;
+  }
+
+  .orders-table th,
+  .orders-table td {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+}
+
+
+/* =========================================================
+   MEDIUM SCREEN
+   Sidebar remains 260px as requested
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .manage-orders-page {
+    width: calc(100% - 260px);
+    margin-left: 260px;
+
+    padding: 95px 22px 35px;
+  }
+
+  .manage-orders-header {
+    align-items: flex-start;
+  }
+
+  .manage-orders-header h1 {
+    font-size: 25px;
+  }
+
+  .orders-count {
+    min-width: 100px;
+
+    padding: 10px 14px;
+
+    font-size: 13px;
+  }
+
+  .orders-table {
+    min-width: 1050px;
+  }
+}
+
+
+/* =========================================================
+   SMALLER CONTENT AREA
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .manage-orders-page {
+    width: calc(100% - 260px);
+    margin-left: 260px;
+
+    padding: 90px 18px 30px;
+  }
+
+  .manage-orders-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .manage-orders-header h1 {
+    font-size: 23px;
+  }
+
+  .manage-orders-header p {
+    font-size: 13px;
+  }
+
+  .orders-count {
+    align-self: flex-start;
+  }
+
+  .orders-table {
+    min-width: 1000px;
+  }
+}
+
+
+/* =========================================================
+   700px
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .manage-orders-page {
+    width: calc(100% - 260px);
+    margin-left: 260px;
+
+    padding: 85px 14px 25px;
+  }
+
+  .manage-orders-header {
+    margin-bottom: 22px;
+  }
+
+  .manage-orders-header h1 {
+    font-size: 21px;
+  }
+
+  .manage-orders-header p {
+    font-size: 12px;
+  }
+
+  .orders-count {
+    padding: 9px 13px;
+
+    font-size: 12px;
+  }
+
+  .orders-table-container {
+    border-radius: 12px;
+  }
+
+  .orders-table {
+    min-width: 950px;
+  }
+
+  .orders-table th {
+    padding: 14px 11px;
+
+    font-size: 10px;
+  }
+
+  .orders-table td {
+    padding: 15px 11px;
+
+    font-size: 12px;
+  }
+
+  .orders-table select {
+    width: 135px;
+
+    min-height: 35px;
+
+    font-size: 10px;
+  }
+
+  .delete-order-btn {
+    min-width: 68px;
+
+    padding: 8px 10px;
+
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   500px
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .manage-orders-page {
+    width: calc(100% - 260px);
+    margin-left: 260px;
+
+    padding: 82px 10px 20px;
+  }
+
+  .manage-orders-header h1 {
+    font-size: 19px;
+  }
+
+  .manage-orders-header p {
+    font-size: 11px;
+  }
+
+  .orders-count {
+    padding: 8px 11px;
+
+    font-size: 11px;
+  }
+
+  .no-orders {
+    min-height: 250px;
+
+    padding: 25px 15px;
+  }
+
+  .no-orders h3 {
+    font-size: 18px;
+  }
+
+  .no-orders p {
+    font-size: 12px;
+  }
+
+  .orders-table {
+    min-width: 900px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .manage-orders-page {
+    width: calc(100% - 260px);
+    margin-left: 260px;
+
+    padding: 80px 8px 18px;
+  }
+
+  .manage-orders-header h1 {
+    font-size: 18px;
+  }
+
+  .orders-table {
+    min-width: 880px;
+  }
+
+  .orders-table th {
+    padding: 12px 9px;
+
+    font-size: 9px;
+  }
+
+  .orders-table td {
+    padding: 13px 9px;
+
+    font-size: 11px;
+  }
+
+  .customer-info strong {
+    font-size: 11px;
+  }
+
+  .customer-info span {
+    font-size: 9px;
+  }
+}
+
+/* =========================================================
+   FINAL FULL-WIDTH / RESPONSIVE SAFETY FIX
+   Design and layout preserved
+========================================================= */
+
+.manage-orders-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+  .manage-orders-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+@media (max-width: 700px) {
+  .manage-orders-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .manage-orders-header {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .orders-count {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .manage-orders-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .manage-orders-header {
+    gap: 12px;
+  }
+
+  .orders-count {
+    align-self: flex-start;
+  }
+
+  .orders-table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .manage-orders-page {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

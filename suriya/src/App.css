@@ -1,0 +1,102 @@
+/* =====================================================
+   GLOBAL APP RESPONSIVE LAYOUT
+===================================================== */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-layout {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+
+/* =====================================================
+   MAIN CONTENT - DESKTOP
+===================================================== */
+
+.main-content {
+  margin-left: 260px;
+
+  width: calc(100% - 260px);
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  padding-top: 76px;
+
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 991px) {
+
+  .main-content {
+    margin-left: 0;
+
+    width: 100%;
+    max-width: 100%;
+
+    padding-top: 68px;
+
+    overflow-x: hidden;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .main-content {
+    margin-left: 0;
+
+    width: 100%;
+    max-width: 100%;
+
+    padding-top: 64px;
+
+    overflow-x: hidden;
+  }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+  .main-content {
+    margin-left: 0;
+
+    width: 100%;
+    max-width: 100%;
+
+    padding-top: 64px;
+
+    overflow-x: hidden;
+  }
+}
