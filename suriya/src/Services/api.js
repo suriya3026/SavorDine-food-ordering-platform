@@ -1,12 +1,11 @@
-
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://savor-dine-food-ordering-backend-production.up.railway.app/api",
+  baseURL: "https://savordine-food-ordering-backend.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000,
+  timeout: 15000,
 });
 
 // Request Interceptor
@@ -38,9 +37,15 @@ api.interceptors.response.use(
         error.response.data
       );
     } else if (error.request) {
-      console.error("Backend not responding:", error.request);
+      console.error(
+        "Backend not responding:",
+        error.request
+      );
     } else {
-      console.error("Request Error:", error.message);
+      console.error(
+        "Request Error:",
+        error.message
+      );
     }
 
     return Promise.reject(error);
