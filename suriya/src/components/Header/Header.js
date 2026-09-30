@@ -29,14 +29,14 @@ const Header = ({ onMenuClick }) => {
   const [search, setSearch] = useState("");
   const [cartCount, setCartCount] = useState(0);
 
-  // =========================
-  // LOAD CART COUNT
-  // =========================
+  // =====================================
+  // LOAD CART COUNT FROM BACKEND
+  // =====================================
   const loadCartCount = useCallback(async () => {
     try {
       const userId = getUserId();
 
-      console.log("Header User ID:", userId);
+      console.log("HEADER - User ID:", userId);
 
       if (!userId) {
         setCartCount(0);
@@ -48,7 +48,7 @@ const Header = ({ onMenuClick }) => {
       );
 
       console.log(
-        "Header Cart Response:",
+        "HEADER - Cart Response:",
         response.data
       );
 
@@ -57,13 +57,14 @@ const Header = ({ onMenuClick }) => {
         : [];
 
       const totalQuantity = cartItems.reduce(
-        (total, item) =>
-          total + Number(item.quantity || 0),
+        (total, item) => {
+          return total + Number(item.quantity || 0);
+        },
         0
       );
 
       console.log(
-        "Header Cart Count:",
+        "HEADER - Total Cart Count:",
         totalQuantity
       );
 
@@ -71,7 +72,7 @@ const Header = ({ onMenuClick }) => {
 
     } catch (error) {
       console.error(
-        "Header Cart Count Error:",
+        "HEADER - Cart Count Error:",
         error.response?.data || error.message
       );
 
@@ -79,21 +80,22 @@ const Header = ({ onMenuClick }) => {
     }
   }, []);
 
-  // =========================
-  // LOAD WHEN HEADER OPENS
-  // =========================
+  // =====================================
+  // INITIAL LOAD
+  // =====================================
   useEffect(() => {
     loadCartCount();
   }, [loadCartCount]);
 
-  // =========================
-  // LISTEN CART UPDATED EVENT
-  // =========================
+  // =====================================
+  // CART UPDATE EVENT
+  // =====================================
   useEffect(() => {
 
-    const handleCartUpdate = () => {
+    const handleCartUpdated = () => {
+
       console.log(
-        "Header received cartUpdated event"
+        "HEADER - cartUpdated event received"
       );
 
       loadCartCount();
@@ -101,21 +103,21 @@ const Header = ({ onMenuClick }) => {
 
     window.addEventListener(
       "cartUpdated",
-      handleCartUpdate
+      handleCartUpdated
     );
 
     return () => {
       window.removeEventListener(
         "cartUpdated",
-        handleCartUpdate
+        handleCartUpdated
       );
     };
 
   }, [loadCartCount]);
 
-  // =========================
+  // =====================================
   // SEARCH
-  // =========================
+  // =====================================
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -140,16 +142,16 @@ const Header = ({ onMenuClick }) => {
     }
   };
 
-  // =========================
-  // CART
-  // =========================
+  // =====================================
+  // CART CLICK
+  // =====================================
   const handleCartClick = () => {
     navigate("/cart");
   };
 
-  // =========================
+  // =====================================
   // ADMIN
-  // =========================
+  // =====================================
   const handleAdminClick = () => {
     navigate("/adminlogin");
   };
