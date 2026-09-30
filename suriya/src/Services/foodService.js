@@ -6,7 +6,7 @@ import api from "./api";
 
 export const getAllFoods = async () => {
   try {
-    const response = await api.get("/api/foods");
+    const response = await api.get("/foods");
     return response.data;
   } catch (error) {
     console.error(
@@ -17,13 +17,14 @@ export const getAllFoods = async () => {
   }
 };
 
+
 // ========================================
 // GET FOOD BY ID
 // ========================================
 
 export const getFoodById = async (id) => {
   try {
-    const response = await api.get(`/api/foods/${id}`);
+    const response = await api.get(`/foods/${id}`);
     return response.data;
   } catch (error) {
     console.error(
@@ -34,6 +35,7 @@ export const getFoodById = async (id) => {
   }
 };
 
+
 // ========================================
 // GET FOODS BY CATEGORY
 // ========================================
@@ -41,10 +43,11 @@ export const getFoodById = async (id) => {
 export const getFoodsByCategory = async (categoryId) => {
   try {
     const response = await api.get(
-      `/api/foods/category/${categoryId}`
+      `/foods/category/${categoryId}`
     );
 
     return response.data;
+
   } catch (error) {
     console.error(
       "Get Foods By Category Error:",
@@ -55,6 +58,7 @@ export const getFoodsByCategory = async (categoryId) => {
   }
 };
 
+
 // ========================================
 // GET AVAILABLE FOODS
 // ========================================
@@ -62,10 +66,11 @@ export const getFoodsByCategory = async (categoryId) => {
 export const getAvailableFoods = async () => {
   try {
     const response = await api.get(
-      "/api/foods/available"
+      "/foods/available"
     );
 
     return response.data;
+
   } catch (error) {
     console.error(
       "Get Available Foods Error:",
@@ -76,6 +81,7 @@ export const getAvailableFoods = async () => {
   }
 };
 
+
 // ========================================
 // SEARCH FOODS
 // ========================================
@@ -83,10 +89,11 @@ export const getAvailableFoods = async () => {
 export const searchFoods = async (name) => {
   try {
     const response = await api.get(
-      `/api/foods/search?name=${encodeURIComponent(name)}`
+      `/foods/search?name=${encodeURIComponent(name)}`
     );
 
     return response.data;
+
   } catch (error) {
     console.error(
       "Search Foods Error:",
@@ -97,6 +104,7 @@ export const searchFoods = async (name) => {
   }
 };
 
+
 // ========================================
 // CREATE FOOD - ADMIN
 // ========================================
@@ -104,11 +112,12 @@ export const searchFoods = async (name) => {
 export const createFood = async (foodData) => {
   try {
     const response = await api.post(
-      "/api/foods",
+      "/foods",
       foodData
     );
 
     return response.data;
+
   } catch (error) {
     console.error(
       "Create Food Error:",
@@ -119,6 +128,7 @@ export const createFood = async (foodData) => {
   }
 };
 
+
 // ========================================
 // UPDATE FOOD - ADMIN
 // ========================================
@@ -126,11 +136,12 @@ export const createFood = async (foodData) => {
 export const updateFood = async (id, foodData) => {
   try {
     const response = await api.put(
-      `/api/foods/${id}`,
+      `/foods/${id}`,
       foodData
     );
 
     return response.data;
+
   } catch (error) {
     console.error(
       "Update Food Error:",
@@ -141,6 +152,7 @@ export const updateFood = async (id, foodData) => {
   }
 };
 
+
 // ========================================
 // DELETE FOOD - ADMIN
 // ========================================
@@ -148,10 +160,11 @@ export const updateFood = async (id, foodData) => {
 export const deleteFood = async (id) => {
   try {
     const response = await api.delete(
-      `/api/foods/${id}`
+      `/foods/${id}`
     );
 
     return response.data;
+
   } catch (error) {
     console.error(
       "Delete Food Error:",
