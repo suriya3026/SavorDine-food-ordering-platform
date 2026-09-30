@@ -1,136 +1,172 @@
-import api from "./api";
+package com.savordine.backend.service;
 
-// ========================================
-// GET CART ITEMS
-// ========================================
+import com.savordine.backend.model.Cart;
+import com.savordine.backend.model.CartItem;
+import com.savordine.backend.model.Food;
+import com.savordine.backend.model.User;
+import com.savordine.backend.repository.CartItemRepository;
+import com.savordine.backend.repository.CartRepository;
+import com.savordine.backend.repository.FoodRepository;
+import com.savordine.backend.repository.UserRepository;
 
-export const getCartItems = async (userId) => {
-  try {
-    const response = await api.get(
-      `/cart/${userId}`
-    );
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-    return response.data;
+import java.util.List;
 
-  } catch (error) {
-    console.error(
-      "Get Cart Error:",
-      error.response?.data || error.message
-    );
+@Service
+public class CartService {
 
-    throw error;
-  }
-};
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final UserRepository userRepository;
+    private final FoodRepository foodRepository;
 
+    public CartService(
+            CartRepository cartRepository,
+            CartItemRepository cartItemRepository,
+            UserRepository userRepository,
+            FoodRepository foodRepository) {
 
-// ========================================
-// ADD FOOD TO CART
-// ========================================
+        this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.userRepository = userRepository;
+        this.foodRepository = foodRepository;
+    }
 
-export const addToCart = async (
-  userId,
-  foodId,
-  quantity
-) => {
-  try {
-    const response = await api.post(
-      "/cart/add",
-      {
-        userId: userId,
-        foodId: foodId,
-        quantity: quantity,
-      }
-    );
+    // ==========================================
+    // GET OR CREATE CART
+    // ==========================================
 
-    return response.data;
+    public Cart getOrCreateCart(Long userId) {
 
-  } catch (error) {
-    console.error(
-      "Add To Cart Error:",
-      error.response?.data || error.message
-    );
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    throw error;
-  }
-};
+        return cartRepository.findByUserId(userId)
+                .orElseGet(() -> cartRepository.save(new Cart(user)));
+    }
 
+    // ==========================================
+    // GET CART ITEMS
+    // ==========================================
 
-// ========================================
-// UPDATE CART QUANTITY
-// ========================================
+    public List<CartItem> getCartItems(Long userId) {
 
-export const updateCartQuantity = async (
-  userId,
-  foodId,
-  quantity
-) => {
-  try {
-    const response = await api.put(
-      "/cart/update",
-      {
-        userId: userId,
-        foodId: foodId,
-        quantity: quantity,
-      }
-    );
+        Cart cart = getOrCreateCart(userId);
 
-    return response.data;
+        return cartItemRepository.findByCartId(cart.getId());
+    }
 
-  } catch (error) {
-    console.error(
-      "Update Cart Error:",
-      error.response?.data || error.message
-    );
+    // ==========================================
+    // ADD TO CART
+    // ==========================================
 
-    throw error;
-  }
-};
+    @Transactional
+    public CartItem addToCart(
+            Long userId,
+            Long foodId,
+            Integer quantity) {
 
+        Cart cart = getOrCreateCart(userId);
 
-// ========================================
-// REMOVE FOOD FROM CART
-// ========================================
+        Food food = foodRepository.findById(foodId)
+                .orElseThrow(() -> new RuntimeException("Food not found"));
 
-export const removeFromCart = async (
-  userId,
-  foodId
-) => {
-  try {
-    const response = await api.delete(
-      `/cart/remove?userId=${userId}&foodId=${foodId}`
-    );
+        if (!food.isAvailable()) {
+            throw new RuntimeException("Food is not available");
+        }
 
-    return response.data;
+        CartItem cartItem = cartItemRepository
+                .findByCartIdAndFoodId(
+                        cart.getId(),
+                        foodId
+                )
+                .orElse(null);
 
-  } catch (error) {
-    console.error(
-      "Remove Cart Item Error:",
-      error.response?.data || error.message
-    );
+        if (cartItem != null) {
 
-    throw error;
-  }
-};
+            cartItem.setQuantity(
+                    cartItem.getQuantity() + quantity
+            );
 
+        } else {
 
-// ========================================
-// CLEAR CART
-// ========================================
+            cartItem = new CartItem(
+                    cart,
+                    food,
+                    quantity
+            );
+        }
 
-export const clearCart = async (userId) => {
-  try {
-    const response = await api.delete(
-      `/cart/clear/${userId}`
-    );
+        return cartItemRepository.save(cartItem);
+    }
 
-    return response.data;
+    // ==========================================
+    // UPDATE QUANTITY
+    // ==========================================
 
-  } catch (error) {
-    console.error(
-      "Clear Cart Error:",
-      error.response?.data || error.message
-    );
+    @Transactional
+    public CartItem updateQuantity(
+            Long userId,
+            Long foodId,
+            Integer quantity) {
 
-    throw error;
-  }
-};
+        Cart cart = getOrCreateCart(userId);
+
+        CartItem cartItem = cartItemRepository
+                .findByCartIdAndFoodId(
+                        cart.getId(),
+                        foodId
+                )
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Cart item not found"
+                        )
+                );
+
+        // If quantity becomes 0 or less,
+        // remove the item completely
+        if (quantity <= 0) {
+
+            cartItemRepository.delete(cartItem);
+
+            return null;
+        }
+
+        cartItem.setQuantity(quantity);
+
+        return cartItemRepository.save(cartItem);
+    }
+
+    // ==========================================
+    // REMOVE SINGLE ITEM
+    // ==========================================
+
+    @Transactional
+    public void removeFromCart(
+            Long userId,
+            Long foodId) {
+
+        Cart cart = getOrCreateCart(userId);
+
+        cartItemRepository.deleteByCartIdAndFoodId(
+                cart.getId(),
+                foodId
+        );
+    }
+
+    // ==========================================
+    // CLEAR ENTIRE CART
+    // ==========================================
+
+    @Transactional
+    public void clearCart(Long userId) {
+
+        Cart cart = getOrCreateCart(userId);
+
+        cartItemRepository.deleteByCartId(
+                cart.getId()
+        );
+    }
+}
