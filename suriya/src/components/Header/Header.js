@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Menu,
@@ -7,7 +6,34 @@ import {
   User,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import api from "../../../Services/api";
 import "./Header.css";
+
+// =====================================================
+// USER ID HELPER
+// =====================================================
+
+const getUserId = () => {
+  const savedUserId = localStorage.getItem("userId");
+
+  if (savedUserId) {
+    return savedUserId;
+  }
+
+  try {
+    const user = JSON.parse(
+      localStorage.getItem("user") || "null"
+    );
+
+    return user?.id || null;
+  } catch {
+    return null;
+  }
+};
+
+// =====================================================
+// HEADER
+// =====================================================
 
 const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
@@ -15,24 +41,42 @@ const Header = ({ onMenuClick }) => {
   const [search, setSearch] = useState("");
   const [cartCount, setCartCount] = useState(0);
 
-  // =========================
-  // LOAD CART COUNT
-  // =========================
-  const loadCartCount = () => {
-    const savedCart =
-      JSON.parse(localStorage.getItem("cartItems")) || [];
+  // =====================================================
+  // LOAD CART COUNT FROM BACKEND
+  // =====================================================
 
-    const totalQuantity = savedCart.reduce(
-      (total, item) => total + (item.quantity || 0),
-      0
-    );
+  const loadCartCount = async () => {
+    const userId = getUserId();
 
-    setCartCount(totalQuantity);
+    if (!userId) {
+      setCartCount(0);
+      return;
+    }
+
+    try {
+      const response = await api.get(`/cart/${userId}`);
+
+      const items = Array.isArray(response.data)
+        ? response.data
+        : [];
+
+      const totalQuantity = items.reduce(
+        (total, item) =>
+          total + Number(item.quantity || 0),
+        0
+      );
+
+      setCartCount(totalQuantity);
+    } catch (error) {
+      console.error("Header cart count error:", error);
+      setCartCount(0);
+    }
   };
 
-  // =========================
+  // =====================================================
   // CART UPDATE LISTENER
-  // =========================
+  // =====================================================
+
   useEffect(() => {
     loadCartCount();
 
@@ -40,18 +84,23 @@ const Header = ({ onMenuClick }) => {
       loadCartCount();
     };
 
-    window.addEventListener("storage", handleCartUpdate);
-    window.addEventListener("cartUpdated", handleCartUpdate);
+    window.addEventListener(
+      "cartUpdated",
+      handleCartUpdate
+    );
 
     return () => {
-      window.removeEventListener("storage", handleCartUpdate);
-      window.removeEventListener("cartUpdated", handleCartUpdate);
+      window.removeEventListener(
+        "cartUpdated",
+        handleCartUpdate
+      );
     };
   }, []);
 
-  // =========================
+  // =====================================================
   // SEARCH
-  // =========================
+  // =====================================================
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -60,7 +109,9 @@ const Header = ({ onMenuClick }) => {
     if (e.key === "Enter") {
       if (search.trim() !== "") {
         navigate(
-          `/menu?search=${encodeURIComponent(search.trim())}`
+          `/menu?search=${encodeURIComponent(
+            search.trim()
+          )}`
         );
       } else {
         navigate("/menu");
@@ -68,28 +119,30 @@ const Header = ({ onMenuClick }) => {
     }
   };
 
-  // =========================
-  // CART
-  // =========================
+  // =====================================================
+  // CART CLICK
+  // =====================================================
+
   const handleCartClick = () => {
     navigate("/cart");
   };
 
-  // =========================
-  // ADMIN
-  // =========================
+  // =====================================================
+  // ADMIN CLICK
+  // =====================================================
+
   const handleAdminClick = () => {
     console.log("Admin button clicked");
-
     navigate("/adminlogin");
   };
+
+  // =====================================================
+  // UI
+  // =====================================================
 
   return (
     <header className="header">
 
-      {/* =========================
-          MOBILE MENU
-      ========================= */}
       <button
         type="button"
         className="mobile-menu-btn"
@@ -98,35 +151,20 @@ const Header = ({ onMenuClick }) => {
         <Menu size={24} />
       </button>
 
-      {/* =========================
-          HEADER TITLE
-      ========================= */}
       <div className="header-title">
-
         <h2>
           <b>SAVOR DINE </b>
-
           <span className="header-full-title">
             {" - online Food Ordering"}
           </span>
         </h2>
 
-        <p>
-          Good to see you again !
-        </p>
-
+        <p>Good to see you again !</p>
       </div>
 
-      {/* =========================
-          HEADER RIGHT
-      ========================= */}
       <div className="header-right">
 
-        {/* =========================
-            SEARCH
-        ========================= */}
         <div className="header-search">
-
           <Search size={19} />
 
           <input
@@ -136,45 +174,36 @@ const Header = ({ onMenuClick }) => {
             onChange={handleSearch}
             onKeyDown={handleSearchKeyDown}
           />
-
         </div>
 
-        {/* =========================
-            CART
-        ========================= */}
+        {/* CART */}
+
         <button
           type="button"
           className="cart-btn"
           onClick={handleCartClick}
           title="View Cart"
         >
-
           <ShoppingCart size={21} />
 
           <span className="cart-count">
             {cartCount}
           </span>
-
         </button>
 
-        {/* =========================
-            ADMIN
-        ========================= */}
+        {/* ADMIN PROFILE */}
+
         <button
           type="button"
           className="header-profile"
           onClick={handleAdminClick}
           title="Administration"
         >
-
           <div className="profile-icon">
-
             <User size={19} />
-
           </div>
 
           <div className="profile-info">
-
             <span className="profile-name">
               Admin
             </span>
@@ -182,13 +211,10 @@ const Header = ({ onMenuClick }) => {
             <span className="profile-role">
               Administrator
             </span>
-
           </div>
-
         </button>
 
       </div>
-
     </header>
   );
 };
