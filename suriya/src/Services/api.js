@@ -8,13 +8,18 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Request Interceptor
+// Automatically add /api
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    // Automatically add /api if it is not already present
+    if (config.url && !config.url.startsWith("/api")) {
+      config.url = `/api${config.url}`;
     }
 
     return config;
@@ -24,11 +29,8 @@ api.interceptors.request.use(
   }
 );
 
-// Response Interceptor
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response) {
       console.error(
