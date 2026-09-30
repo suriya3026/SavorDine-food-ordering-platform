@@ -1,51 +1,176 @@
-import axios from "axios";
+import api from "./api";
 
-const api = axios.create({
-  baseURL: "https://savordine-food-ordering-backend.onrender.com",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 10000,
-});
+// ========================================
+// GET ALL FOODS
+// ========================================
 
-// Automatically add /api
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    // Automatically add /api if it is not already present
-    if (config.url && !config.url.startsWith("/api")) {
-      config.url = `/api${config.url}`;
-    }
-
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+export const getAllFoods = async () => {
+  try {
+    const response = await api.get("/api/foods");
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get All Foods Error:",
+      error.response?.data || error.message
+    );
+    throw error;
   }
-);
+};
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response) {
-      console.error(
-        "API Error:",
-        error.response.status,
-        error.response.data
-      );
-    } else if (error.request) {
-      console.error("Backend not responding:", error.request);
-    } else {
-      console.error("Request Error:", error.message);
-    }
 
-    return Promise.reject(error);
+// ========================================
+// GET FOOD BY ID
+// ========================================
+
+export const getFoodById = async (id) => {
+  try {
+    const response = await api.get(`/foods/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get Food Error:",
+      error.response?.data || error.message
+    );
+    throw error;
   }
-);
+};
 
-export default api;
+
+// ========================================
+// GET FOODS BY CATEGORY
+// ========================================
+
+export const getFoodsByCategory = async (categoryId) => {
+  try {
+    const response = await api.get(
+      `/foods/category/${categoryId}`
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "Get Foods By Category Error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
+};
+
+
+// ========================================
+// GET AVAILABLE FOODS
+// ========================================
+
+export const getAvailableFoods = async () => {
+  try {
+    const response = await api.get(
+      "/foods/available"
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "Get Available Foods Error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
+};
+
+
+// ========================================
+// SEARCH FOODS
+// ========================================
+
+export const searchFoods = async (name) => {
+  try {
+    const response = await api.get(
+      `/foods/search?name=${encodeURIComponent(name)}`
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "Search Foods Error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
+};
+
+
+// ========================================
+// CREATE FOOD - ADMIN
+// ========================================
+
+export const createFood = async (foodData) => {
+  try {
+    const response = await api.post(
+      "/foods",
+      foodData
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "Create Food Error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
+};
+
+
+// ========================================
+// UPDATE FOOD - ADMIN
+// ========================================
+
+export const updateFood = async (id, foodData) => {
+  try {
+    const response = await api.put(
+      `/foods/${id}`,
+      foodData
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "Update Food Error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
+};
+
+
+// ========================================
+// DELETE FOOD - ADMIN
+// ========================================
+
+export const deleteFood = async (id) => {
+  try {
+    const response = await api.delete(
+      `/foods/${id}`
+    );
+
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "Delete Food Error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
+};
