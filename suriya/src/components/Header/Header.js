@@ -10,14 +10,14 @@ import api from "../../../Services/api";
 import "./Header.css";
 
 // =====================================================
-// USER ID HELPER
+// GET USER ID
 // =====================================================
 
 const getUserId = () => {
-  const savedUserId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
 
-  if (savedUserId) {
-    return savedUserId;
+  if (userId) {
+    return userId;
   }
 
   try {
@@ -26,7 +26,8 @@ const getUserId = () => {
     );
 
     return user?.id || null;
-  } catch {
+  } catch (error) {
+    console.error("User data error:", error);
     return null;
   }
 };
@@ -46,41 +47,74 @@ const Header = ({ onMenuClick }) => {
   // =====================================================
 
   const loadCartCount = async () => {
-    const userId = getUserId();
-
-    if (!userId) {
-      setCartCount(0);
-      return;
-    }
-
     try {
-      const response = await api.get(`/cart/${userId}`);
+      const userId = getUserId();
 
-      const items = Array.isArray(response.data)
+      console.log("Header User ID:", userId);
+
+      if (!userId) {
+        setCartCount(0);
+        return;
+      }
+
+      const response = await api.get(
+        `/cart/${Number(userId)}`
+      );
+
+      console.log(
+        "Header Cart Response:",
+        response.data
+      );
+
+      const cartItems = Array.isArray(response.data)
         ? response.data
         : [];
 
-      const totalQuantity = items.reduce(
-        (total, item) =>
-          total + Number(item.quantity || 0),
+      const totalQuantity = cartItems.reduce(
+        (total, item) => {
+          return (
+            total +
+            Number(item.quantity || 0)
+          );
+        },
         0
       );
 
+      console.log(
+        "Header Cart Count:",
+        totalQuantity
+      );
+
       setCartCount(totalQuantity);
+
     } catch (error) {
-      console.error("Header cart count error:", error);
+      console.error(
+        "Header Cart Count Error:",
+        error
+      );
+
       setCartCount(0);
     }
   };
 
   // =====================================================
-  // CART UPDATE LISTENER
+  // INITIAL CART LOAD
   // =====================================================
 
   useEffect(() => {
     loadCartCount();
+  }, []);
 
+  // =====================================================
+  // CART UPDATE EVENT
+  // =====================================================
+
+  useEffect(() => {
     const handleCartUpdate = () => {
+      console.log(
+        "Cart updated event received by Header"
+      );
+
       loadCartCount();
     };
 
@@ -143,6 +177,8 @@ const Header = ({ onMenuClick }) => {
   return (
     <header className="header">
 
+      {/* MOBILE MENU */}
+
       <button
         type="button"
         className="mobile-menu-btn"
@@ -151,20 +187,30 @@ const Header = ({ onMenuClick }) => {
         <Menu size={24} />
       </button>
 
+      {/* TITLE */}
+
       <div className="header-title">
         <h2>
           <b>SAVOR DINE </b>
+
           <span className="header-full-title">
             {" - online Food Ordering"}
           </span>
         </h2>
 
-        <p>Good to see you again !</p>
+        <p>
+          Good to see you again !
+        </p>
       </div>
+
+      {/* RIGHT SIDE */}
 
       <div className="header-right">
 
+        {/* SEARCH */}
+
         <div className="header-search">
+
           <Search size={19} />
 
           <input
@@ -174,6 +220,7 @@ const Header = ({ onMenuClick }) => {
             onChange={handleSearch}
             onKeyDown={handleSearchKeyDown}
           />
+
         </div>
 
         {/* CART */}
@@ -184,11 +231,13 @@ const Header = ({ onMenuClick }) => {
           onClick={handleCartClick}
           title="View Cart"
         >
+
           <ShoppingCart size={21} />
 
           <span className="cart-count">
             {cartCount}
           </span>
+
         </button>
 
         {/* ADMIN PROFILE */}
@@ -199,11 +248,13 @@ const Header = ({ onMenuClick }) => {
           onClick={handleAdminClick}
           title="Administration"
         >
+
           <div className="profile-icon">
             <User size={19} />
           </div>
 
           <div className="profile-info">
+
             <span className="profile-name">
               Admin
             </span>
@@ -211,10 +262,13 @@ const Header = ({ onMenuClick }) => {
             <span className="profile-role">
               Administrator
             </span>
+
           </div>
+
         </button>
 
       </div>
+
     </header>
   );
 };
