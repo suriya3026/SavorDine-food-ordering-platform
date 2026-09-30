@@ -74,6 +74,10 @@ const Cart = () => {
       );
 
       await loadCart();
+
+      // UPDATE HEADER CART COUNT
+      window.dispatchEvent(new Event("cartUpdated"));
+
     } catch (err) {
       console.error("Increase Quantity Error:", err);
       alert("Unable to update quantity.");
@@ -102,6 +106,10 @@ const Cart = () => {
       );
 
       await loadCart();
+
+      // UPDATE HEADER CART COUNT
+      window.dispatchEvent(new Event("cartUpdated"));
+
     } catch (err) {
       console.error("Decrease Quantity Error:", err);
       alert("Unable to update quantity.");
@@ -121,6 +129,10 @@ const Cart = () => {
       await removeFromCart(userId, foodId);
 
       await loadCart();
+
+      // UPDATE HEADER CART COUNT
+      window.dispatchEvent(new Event("cartUpdated"));
+
     } catch (err) {
       console.error("Remove Cart Error:", err);
       alert("Unable to remove item.");
@@ -148,6 +160,10 @@ const Cart = () => {
       await clearCart(userId);
 
       setCartItems([]);
+
+      // UPDATE HEADER CART COUNT
+      window.dispatchEvent(new Event("cartUpdated"));
+
     } catch (err) {
       console.error("Clear Cart Error:", err);
       alert("Unable to clear cart.");
@@ -318,6 +334,7 @@ const Cart = () => {
           <div className="cart-items-section">
 
             <div className="cart-items-header">
+
               <h2>
                 Cart Items
               </h2>
@@ -326,6 +343,7 @@ const Cart = () => {
                 {cartItems.length} item
                 {cartItems.length !== 1 ? "s" : ""}
               </span>
+
             </div>
 
             {cartItems.map((item) => {
@@ -464,6 +482,7 @@ const Cart = () => {
             </div>
 
             <div className="summary-row">
+
               <span>Items</span>
 
               <span>
@@ -474,9 +493,11 @@ const Cart = () => {
                   0
                 )}
               </span>
+
             </div>
 
             <div className="summary-row">
+
               <span>Subtotal</span>
 
               <span>
@@ -485,14 +506,17 @@ const Cart = () => {
                   "en-IN"
                 )}
               </span>
+
             </div>
 
             <div className="summary-row">
+
               <span>Delivery Fee</span>
 
               <span className="free-text">
                 FREE
               </span>
+
             </div>
 
             <div className="summary-divider"></div>
