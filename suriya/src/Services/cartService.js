@@ -34,10 +34,9 @@ public class CartService {
         this.foodRepository = foodRepository;
     }
 
-    // ==========================================
+    // =========================
     // GET OR CREATE CART
-    // ==========================================
-
+    // =========================
     public Cart getOrCreateCart(Long userId) {
 
         User user = userRepository.findById(userId)
@@ -47,10 +46,9 @@ public class CartService {
                 .orElseGet(() -> cartRepository.save(new Cart(user)));
     }
 
-    // ==========================================
+    // =========================
     // GET CART ITEMS
-    // ==========================================
-
+    // =========================
     public List<CartItem> getCartItems(Long userId) {
 
         Cart cart = getOrCreateCart(userId);
@@ -58,10 +56,9 @@ public class CartService {
         return cartItemRepository.findByCartId(cart.getId());
     }
 
-    // ==========================================
+    // =========================
     // ADD TO CART
-    // ==========================================
-
+    // =========================
     @Transactional
     public CartItem addToCart(
             Long userId,
@@ -102,10 +99,9 @@ public class CartService {
         return cartItemRepository.save(cartItem);
     }
 
-    // ==========================================
+    // =========================
     // UPDATE QUANTITY
-    // ==========================================
-
+    // =========================
     @Transactional
     public CartItem updateQuantity(
             Long userId,
@@ -125,8 +121,6 @@ public class CartService {
                         )
                 );
 
-        // If quantity becomes 0 or less,
-        // remove the item completely
         if (quantity <= 0) {
 
             cartItemRepository.delete(cartItem);
@@ -139,10 +133,9 @@ public class CartService {
         return cartItemRepository.save(cartItem);
     }
 
-    // ==========================================
+    // =========================
     // REMOVE SINGLE ITEM
-    // ==========================================
-
+    // =========================
     @Transactional
     public void removeFromCart(
             Long userId,
@@ -150,23 +143,28 @@ public class CartService {
 
         Cart cart = getOrCreateCart(userId);
 
-        cartItemRepository.deleteByCartIdAndFoodId(
-                cart.getId(),
-                foodId
+        List<CartItem> items =
+                cartItemRepository.findByCartId(cart.getId());
+
+        items.removeIf(item ->
+                item.getFood() == null ||
+                !item.getFood().getId().equals(foodId)
         );
+
+        cartItemRepository.deleteAll(items);
     }
 
-    // ==========================================
+    // =========================
     // CLEAR ENTIRE CART
-    // ==========================================
-
+    // =========================
     @Transactional
     public void clearCart(Long userId) {
 
         Cart cart = getOrCreateCart(userId);
 
-        cartItemRepository.deleteByCartId(
-                cart.getId()
-        );
+        List<CartItem> items =
+                cartItemRepository.findByCartId(cart.getId());
+
+        cartItemRepository.deleteAll(items);
     }
 }
