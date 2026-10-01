@@ -63,7 +63,6 @@ const ManageOrders = () => {
       }
 
       setOrderItems(itemsData);
-
     } catch (error) {
       console.error(
         "Load Orders Error:",
@@ -95,7 +94,6 @@ const ManageOrders = () => {
       );
 
       await loadOrders();
-
     } catch (error) {
       console.error(
         "Order Status Error:",
@@ -131,7 +129,6 @@ const ManageOrders = () => {
       );
 
       await loadOrders();
-
     } catch (error) {
       console.error(
         "Payment Status Error:",
@@ -170,7 +167,6 @@ const ManageOrders = () => {
       );
 
       await loadOrders();
-
     } catch (error) {
       console.error(
         "Delete Order Error:",
@@ -210,37 +206,18 @@ const ManageOrders = () => {
   };
 
   // ==========================================
-  // GET FOOD NAME
+  // FOOD NAME
   // ==========================================
 
   const getFoodName = (item) => {
-    if (!item) {
-      return "Unknown Food";
-    }
-
-    // If backend returns food object
-    if (item.food?.name) {
-      return item.food.name;
-    }
-
-    // Other possible backend field names
-    if (item.foodName) {
-      return item.foodName;
-    }
-
-    if (item.name) {
-      return item.name;
-    }
-
-    if (item.food?.foodName) {
-      return item.food.foodName;
-    }
-
-    if (item.product?.name) {
-      return item.product.name;
-    }
-
-    return "Unknown Food";
+    return (
+      item?.food?.name ||
+      item?.foodName ||
+      item?.name ||
+      item?.food?.foodName ||
+      item?.product?.name ||
+      "Unknown Food"
+    );
   };
 
   // ==========================================
@@ -250,9 +227,7 @@ const ManageOrders = () => {
   if (loading) {
     return (
       <div className="manage-orders-page">
-
         <div className="manage-orders-loading">
-
           <h3>
             Loading Orders...
           </h3>
@@ -261,9 +236,7 @@ const ManageOrders = () => {
             Please wait while orders
             are loaded.
           </p>
-
         </div>
-
       </div>
     );
   }
@@ -282,7 +255,6 @@ const ManageOrders = () => {
       <div className="manage-orders-header">
 
         <div>
-
           <h1>
             Manage Orders
           </h1>
@@ -290,17 +262,13 @@ const ManageOrders = () => {
           <p>
             View and manage customer orders
           </p>
-
         </div>
 
         <div className="orders-count">
-
           {orders.length} Orders
-
         </div>
 
       </div>
-
 
       {/* ======================================
           ORDERS
@@ -339,7 +307,6 @@ const ManageOrders = () => {
                   Customer
                 </th>
 
-                {/* NEW */}
                 <th>
                   Food Items
                 </th>
@@ -372,25 +339,19 @@ const ManageOrders = () => {
 
             </thead>
 
-
             <tbody>
 
               {orders.map((order) => (
 
                 <tr key={order.id}>
 
-                  {/* ==================================
-                      ORDER ID
-                  ================================== */}
+                  {/* ORDER ID */}
 
                   <td>
                     #{order.id}
                   </td>
 
-
-                  {/* ==================================
-                      CUSTOMER
-                  ================================== */}
+                  {/* CUSTOMER */}
 
                   <td>
 
@@ -410,23 +371,21 @@ const ManageOrders = () => {
 
                   </td>
 
-
-                  {/* ==================================
-                      FOOD ITEMS
-                  ================================== */}
+                  {/* FOOD ITEMS */}
 
                   <td>
 
-                    <div
-                      style={{
-                        minWidth: "180px",
-                      }}
-                    >
+                    {orderItems[order.id]?.length > 0 ? (
 
-                      {orderItems[order.id] &&
-                      orderItems[order.id].length > 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px",
+                        }}
+                      >
 
-                        orderItems[order.id].map(
+                        {orderItems[order.id].map(
                           (item, index) => (
 
                             <div
@@ -435,108 +394,67 @@ const ManageOrders = () => {
                                 index
                               }
                               style={{
-                                marginBottom:
-                                  "10px",
-                                paddingBottom:
-                                  "8px",
-                                borderBottom:
-                                  "1px solid #eee",
+                                display: "flex",
+                                flexDirection: "column",
                               }}
                             >
 
                               <strong>
-                                {getFoodName(
-                                  item
-                                )}
+                                {getFoodName(item)}
                               </strong>
 
-                              <div
-                                style={{
-                                  fontSize:
-                                    "13px",
-                                  marginTop:
-                                    "3px",
-                                }}
-                              >
-
+                              <span>
                                 Qty:{" "}
                                 {item.quantity ||
-                                  0}
-
-                                {" × ₹"}
-
-                                {Number(
-                                  item.price ||
-                                    0
-                                ).toFixed(2)}
-
-                              </div>
+                                  1}
+                              </span>
 
                             </div>
 
                           )
-                        )
+                        )}
 
-                      ) : (
+                      </div>
 
-                        <span>
-                          No food items
-                        </span>
+                    ) : (
 
-                      )}
+                      <span>
+                        No food items
+                      </span>
 
-                    </div>
-
-                  </td>
-
-
-                  {/* ==================================
-                      TOTAL
-                  ================================== */}
-
-                  <td>
-
-                    <strong>
-
-                      ₹
-                      {Number(
-                        order.totalAmount ||
-                          0
-                      ).toFixed(2)}
-
-                    </strong>
-
-                  </td>
-
-
-                  {/* ==================================
-                      ADDRESS
-                  ================================== */}
-
-                  <td>
-
-                    {order.deliveryAddress ||
-                      "No address"}
-
-                  </td>
-
-
-                  {/* ==================================
-                      DATE
-                  ================================== */}
-
-                  <td>
-
-                    {formatDate(
-                      order.orderDate
                     )}
 
                   </td>
 
+                  {/* TOTAL */}
 
-                  {/* ==================================
-                      ORDER STATUS
-                  ================================== */}
+                  <td>
+
+                    <strong>
+                      ₹
+                      {Number(
+                        order.totalAmount || 0
+                      ).toFixed(2)}
+                    </strong>
+
+                  </td>
+
+                  {/* ADDRESS */}
+
+                  <td>
+                    {order.deliveryAddress ||
+                      "No address"}
+                  </td>
+
+                  {/* DATE */}
+
+                  <td>
+                    {formatDate(
+                      order.orderDate
+                    )}
+                  </td>
+
+                  {/* ORDER STATUS */}
 
                   <td>
 
@@ -581,10 +499,7 @@ const ManageOrders = () => {
 
                   </td>
 
-
-                  {/* ==================================
-                      PAYMENT
-                  ================================== */}
+                  {/* PAYMENT */}
 
                   <td>
 
@@ -621,10 +536,7 @@ const ManageOrders = () => {
 
                   </td>
 
-
-                  {/* ==================================
-                      ACTION
-                  ================================== */}
+                  {/* ACTION */}
 
                   <td>
 
