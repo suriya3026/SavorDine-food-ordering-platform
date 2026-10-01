@@ -40,25 +40,27 @@ const ManageOrders = () => {
 
       const itemsData = {};
 
-      await Promise.all(
-        orderList.map(async (order) => {
-          try {
-            const items = await getOrderItems(order.id);
+      for (const order of orderList) {
+        try {
+          const items = await getOrderItems(order.id);
 
-            itemsData[order.id] = Array.isArray(items)
-              ? items
-              : [];
+          console.log(
+            `Food items for order ${order.id}:`,
+            items
+          );
 
-          } catch (error) {
-            console.error(
-              `Failed to load items for order ${order.id}:`,
-              error
-            );
+          itemsData[order.id] = Array.isArray(items)
+            ? items
+            : [];
+        } catch (error) {
+          console.error(
+            `Food items error for order ${order.id}:`,
+            error
+          );
 
-            itemsData[order.id] = [];
-          }
-        })
-      );
+          itemsData[order.id] = [];
+        }
+      }
 
       setOrderItems(itemsData);
 
@@ -69,7 +71,6 @@ const ManageOrders = () => {
       );
 
       alert("Unable to load orders.");
-
     } finally {
       setLoading(false);
     }
@@ -209,6 +210,40 @@ const ManageOrders = () => {
   };
 
   // ==========================================
+  // GET FOOD NAME
+  // ==========================================
+
+  const getFoodName = (item) => {
+    if (!item) {
+      return "Unknown Food";
+    }
+
+    // If backend returns food object
+    if (item.food?.name) {
+      return item.food.name;
+    }
+
+    // Other possible backend field names
+    if (item.foodName) {
+      return item.foodName;
+    }
+
+    if (item.name) {
+      return item.name;
+    }
+
+    if (item.food?.foodName) {
+      return item.food.foodName;
+    }
+
+    if (item.product?.name) {
+      return item.product.name;
+    }
+
+    return "Unknown Food";
+  };
+
+  // ==========================================
   // LOADING
   // ==========================================
 
@@ -344,14 +379,18 @@ const ManageOrders = () => {
 
                 <tr key={order.id}>
 
-                  {/* ORDER ID */}
+                  {/* ==================================
+                      ORDER ID
+                  ================================== */}
 
                   <td>
                     #{order.id}
                   </td>
 
 
-                  {/* CUSTOMER */}
+                  {/* ==================================
+                      CUSTOMER
+                  ================================== */}
 
                   <td>
 
@@ -392,42 +431,50 @@ const ManageOrders = () => {
 
                             <div
                               key={
-                                item.id || index
+                                item.id ||
+                                index
                               }
                               style={{
                                 marginBottom:
+                                  "10px",
+                                paddingBottom:
                                   "8px",
+                                borderBottom:
+                                  "1px solid #eee",
                               }}
                             >
 
                               <strong>
-                                {item.food?.name ||
-                                  "Unknown Food"}
+                                {getFoodName(
+                                  item
+                                )}
                               </strong>
 
-                              <span
+                              <div
                                 style={{
-                                  display:
-                                    "block",
                                   fontSize:
                                     "13px",
                                   marginTop:
-                                    "2px",
+                                    "3px",
                                 }}
                               >
+
                                 Qty:{" "}
-                                {item.quantity || 0}
-                                {" × "}
-                                ₹
+                                {item.quantity ||
+                                  0}
+
+                                {" × ₹"}
+
                                 {Number(
-                                  item.price || 0
+                                  item.price ||
+                                    0
                                 ).toFixed(2)}
-                              </span>
+
+                              </div>
 
                             </div>
 
                           )
-
                         )
 
                       ) : (
@@ -443,21 +490,28 @@ const ManageOrders = () => {
                   </td>
 
 
-                  {/* TOTAL */}
+                  {/* ==================================
+                      TOTAL
+                  ================================== */}
 
                   <td>
 
                     <strong>
+
                       ₹
                       {Number(
-                        order.totalAmount || 0
+                        order.totalAmount ||
+                          0
                       ).toFixed(2)}
+
                     </strong>
 
                   </td>
 
 
-                  {/* ADDRESS */}
+                  {/* ==================================
+                      ADDRESS
+                  ================================== */}
 
                   <td>
 
@@ -467,7 +521,9 @@ const ManageOrders = () => {
                   </td>
 
 
-                  {/* DATE */}
+                  {/* ==================================
+                      DATE
+                  ================================== */}
 
                   <td>
 
@@ -478,7 +534,9 @@ const ManageOrders = () => {
                   </td>
 
 
-                  {/* ORDER STATUS */}
+                  {/* ==================================
+                      ORDER STATUS
+                  ================================== */}
 
                   <td>
 
@@ -524,7 +582,9 @@ const ManageOrders = () => {
                   </td>
 
 
-                  {/* PAYMENT */}
+                  {/* ==================================
+                      PAYMENT
+                  ================================== */}
 
                   <td>
 
@@ -562,7 +622,9 @@ const ManageOrders = () => {
                   </td>
 
 
-                  {/* ACTION */}
+                  {/* ==================================
+                      ACTION
+                  ================================== */}
 
                   <td>
 
