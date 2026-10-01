@@ -3,7 +3,6 @@ import "./ManageOrders.css";
 
 import {
   getAllOrders,
-  getOrderItems,
   updateOrderStatus,
   updatePaymentStatus,
   deleteOrder,
@@ -11,7 +10,6 @@ import {
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
-  const [orderItems, setOrderItems] = useState({});
   const [loading, setLoading] = useState(true);
 
   // ==========================================
@@ -30,39 +28,10 @@ const ManageOrders = () => {
 
       console.log("Orders from backend:", data);
 
-      const orderList = Array.isArray(data) ? data : [];
+      setOrders(
+        Array.isArray(data) ? data : []
+      );
 
-      setOrders(orderList);
-
-      // ==========================================
-      // LOAD FOOD ITEMS FOR EACH ORDER
-      // ==========================================
-
-      const itemsData = {};
-
-      for (const order of orderList) {
-        try {
-          const items = await getOrderItems(order.id);
-
-          console.log(
-            `Food items for order ${order.id}:`,
-            items
-          );
-
-          itemsData[order.id] = Array.isArray(items)
-            ? items
-            : [];
-        } catch (error) {
-          console.error(
-            `Food items error for order ${order.id}:`,
-            error
-          );
-
-          itemsData[order.id] = [];
-        }
-      }
-
-      setOrderItems(itemsData);
     } catch (error) {
       console.error(
         "Load Orders Error:",
@@ -94,6 +63,7 @@ const ManageOrders = () => {
       );
 
       await loadOrders();
+
     } catch (error) {
       console.error(
         "Order Status Error:",
@@ -129,6 +99,7 @@ const ManageOrders = () => {
       );
 
       await loadOrders();
+
     } catch (error) {
       console.error(
         "Payment Status Error:",
@@ -167,6 +138,7 @@ const ManageOrders = () => {
       );
 
       await loadOrders();
+
     } catch (error) {
       console.error(
         "Delete Order Error:",
@@ -206,28 +178,15 @@ const ManageOrders = () => {
   };
 
   // ==========================================
-  // FOOD NAME
-  // ==========================================
-
-  const getFoodName = (item) => {
-    return (
-      item?.food?.name ||
-      item?.foodName ||
-      item?.name ||
-      item?.food?.foodName ||
-      item?.product?.name ||
-      "Unknown Food"
-    );
-  };
-
-  // ==========================================
   // LOADING
   // ==========================================
 
   if (loading) {
     return (
       <div className="manage-orders-page">
+
         <div className="manage-orders-loading">
+
           <h3>
             Loading Orders...
           </h3>
@@ -236,7 +195,9 @@ const ManageOrders = () => {
             Please wait while orders
             are loaded.
           </p>
+
         </div>
+
       </div>
     );
   }
@@ -255,6 +216,7 @@ const ManageOrders = () => {
       <div className="manage-orders-header">
 
         <div>
+
           <h1>
             Manage Orders
           </h1>
@@ -262,13 +224,17 @@ const ManageOrders = () => {
           <p>
             View and manage customer orders
           </p>
+
         </div>
 
         <div className="orders-count">
+
           {orders.length} Orders
+
         </div>
 
       </div>
+
 
       {/* ======================================
           ORDERS
@@ -308,10 +274,6 @@ const ManageOrders = () => {
                 </th>
 
                 <th>
-                  Food Items
-                </th>
-
-                <th>
                   Total
                 </th>
 
@@ -339,6 +301,7 @@ const ManageOrders = () => {
 
             </thead>
 
+
             <tbody>
 
               {orders.map((order) => (
@@ -350,6 +313,7 @@ const ManageOrders = () => {
                   <td>
                     #{order.id}
                   </td>
+
 
                   {/* CUSTOMER */}
 
@@ -371,60 +335,6 @@ const ManageOrders = () => {
 
                   </td>
 
-                  {/* FOOD ITEMS */}
-
-                  <td>
-
-                    {orderItems[order.id]?.length > 0 ? (
-
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "6px",
-                        }}
-                      >
-
-                        {orderItems[order.id].map(
-                          (item, index) => (
-
-                            <div
-                              key={
-                                item.id ||
-                                index
-                              }
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-
-                              <strong>
-                                {getFoodName(item)}
-                              </strong>
-
-                              <span>
-                                Qty:{" "}
-                                {item.quantity ||
-                                  1}
-                              </span>
-
-                            </div>
-
-                          )
-                        )}
-
-                      </div>
-
-                    ) : (
-
-                      <span>
-                        No food items
-                      </span>
-
-                    )}
-
-                  </td>
 
                   {/* TOTAL */}
 
@@ -439,20 +349,27 @@ const ManageOrders = () => {
 
                   </td>
 
+
                   {/* ADDRESS */}
 
                   <td>
+
                     {order.deliveryAddress ||
                       "No address"}
+
                   </td>
+
 
                   {/* DATE */}
 
                   <td>
+
                     {formatDate(
                       order.orderDate
                     )}
+
                   </td>
+
 
                   {/* ORDER STATUS */}
 
@@ -499,6 +416,7 @@ const ManageOrders = () => {
 
                   </td>
 
+
                   {/* PAYMENT */}
 
                   <td>
@@ -535,6 +453,7 @@ const ManageOrders = () => {
                     </select>
 
                   </td>
+
 
                   {/* ACTION */}
 
