@@ -3,6 +3,7 @@ import "./ManageOrders.css";
 
 import {
   getAllOrders,
+  getOrderItems,
   updateOrderStatus,
   updatePaymentStatus,
   deleteOrder,
@@ -10,6 +11,7 @@ import {
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [orderItems, setOrderItems] = useState({});
   const [loading, setLoading] = useState(true);
 
   // ==========================================
@@ -28,9 +30,37 @@ const ManageOrders = () => {
 
       console.log("Orders from backend:", data);
 
-      setOrders(
-        Array.isArray(data) ? data : []
+      const orderList = Array.isArray(data) ? data : [];
+
+      setOrders(orderList);
+
+      // ==========================================
+      // LOAD FOOD ITEMS FOR EACH ORDER
+      // ==========================================
+
+      const itemsData = {};
+
+      await Promise.all(
+        orderList.map(async (order) => {
+          try {
+            const items = await getOrderItems(order.id);
+
+            itemsData[order.id] = Array.isArray(items)
+              ? items
+              : [];
+
+          } catch (error) {
+            console.error(
+              `Failed to load items for order ${order.id}:`,
+              error
+            );
+
+            itemsData[order.id] = [];
+          }
+        })
       );
+
+      setOrderItems(itemsData);
 
     } catch (error) {
       console.error(
@@ -39,6 +69,7 @@ const ManageOrders = () => {
       );
 
       alert("Unable to load orders.");
+
     } finally {
       setLoading(false);
     }
@@ -273,6 +304,11 @@ const ManageOrders = () => {
                   Customer
                 </th>
 
+                {/* NEW */}
+                <th>
+                  Food Items
+                </th>
+
                 <th>
                   Total
                 </th>
@@ -330,6 +366,77 @@ const ManageOrders = () => {
                         {order.user?.email ||
                           "No email"}
                       </span>
+
+                    </div>
+
+                  </td>
+
+
+                  {/* ==================================
+                      FOOD ITEMS
+                  ================================== */}
+
+                  <td>
+
+                    <div
+                      style={{
+                        minWidth: "180px",
+                      }}
+                    >
+
+                      {orderItems[order.id] &&
+                      orderItems[order.id].length > 0 ? (
+
+                        orderItems[order.id].map(
+                          (item, index) => (
+
+                            <div
+                              key={
+                                item.id || index
+                              }
+                              style={{
+                                marginBottom:
+                                  "8px",
+                              }}
+                            >
+
+                              <strong>
+                                {item.food?.name ||
+                                  "Unknown Food"}
+                              </strong>
+
+                              <span
+                                style={{
+                                  display:
+                                    "block",
+                                  fontSize:
+                                    "13px",
+                                  marginTop:
+                                    "2px",
+                                }}
+                              >
+                                Qty:{" "}
+                                {item.quantity || 0}
+                                {" × "}
+                                ₹
+                                {Number(
+                                  item.price || 0
+                                ).toFixed(2)}
+                              </span>
+
+                            </div>
+
+                          )
+
+                        )
+
+                      ) : (
+
+                        <span>
+                          No food items
+                        </span>
+
+                      )}
 
                     </div>
 
