@@ -7,7 +7,7 @@ import {
   updateOrderStatus,
   updatePaymentStatus,
   deleteOrder,
-} from "../../../Services/api";
+} from "../../../Services/orderService";
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
